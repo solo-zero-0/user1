@@ -51,7 +51,7 @@ const LoginSignup = () => {
           src="https://media.istockphoto.com/id/2215600126/video/seamless-loop-digital-microchip-with-glowing-house-icon-and-circuit-board-smart-home.mp4?s=mp4-640x640-is&k=20&c=ECdGVVkqgVTQhSHB0U1OpRPHh95z9-BFKNcmXNFOknk="
           autoPlay
           onEnded={() => navigate('/')}
-          style={{ width: '100%', height: '100vh', objectFit: 'cover' }}
+          style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', objectFit: 'cover', margin: 0, padding: 0, border: 'none' }}
         />
       ) : (
         <div className="login-signup-container">
