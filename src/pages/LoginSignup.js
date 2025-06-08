@@ -1,19 +1,35 @@
 import React, { useState } from 'react';
 import './LoginSignup.css';
+import { auth } from '../firebase';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword 
+} from 'firebase/auth';
 
 const LoginSignup = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [error, setError] = useState('');
 
   const handleToggle = () => {
     setIsLogin(!isLogin);
+    setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // handle login/signup logic
+    setError('');
+    try {
+      if (isLogin) {
+        await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        await createUserWithEmailAndPassword(auth, email, password);
+      }
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   const handlePasswordFocus = () => {
@@ -50,6 +66,7 @@ const LoginSignup = () => {
             onBlur={handlePasswordBlur}
             required
           />
+          {error && <p className="error-message">{error}</p>}
           <button type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
         </form>
         <button className="toggle-button" onClick={handleToggle}>
