@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LoginSignup.css';
 import { auth } from '../firebase';
 import { 
@@ -8,6 +9,7 @@ import {
 
 const LoginSignup = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
@@ -24,8 +26,10 @@ const LoginSignup = () => {
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
+        navigate('/');
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
+        navigate('/');
       }
     } catch (err) {
       setError(err.message);
