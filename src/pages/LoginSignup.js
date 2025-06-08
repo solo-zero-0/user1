@@ -14,6 +14,7 @@ const LoginSignup = () => {
   const [password, setPassword] = useState('');
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [error, setError] = useState('');
+  const [showVideo, setShowVideo] = useState(false);
 
   const handleToggle = () => {
     setIsLogin(!isLogin);
@@ -26,11 +27,10 @@ const LoginSignup = () => {
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
-        navigate('/');
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
-        navigate('/');
       }
+      setShowVideo(true);
     } catch (err) {
       setError(err.message);
     }
@@ -45,39 +45,50 @@ const LoginSignup = () => {
   };
 
   return (
-    <div className="login-signup-container">
-      <div className="emoji-container">
-        <span className={`emoji ${isPasswordFocused ? 'focused' : ''}`}>
-          {isPasswordFocused ? '🙈' : '🐵'}
-        </span>
-      </div>
-      <div className="form-container">
-        <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
-        <form onSubmit={handleSubmit}>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onFocus={handlePasswordFocus}
-            onBlur={handlePasswordBlur}
-            required
-          />
-          {error && <p className="error-message">{error}</p>}
-          <button type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
-        </form>
-        <button className="toggle-button" onClick={handleToggle}>
-          {isLogin ? "Don't have an account? Sign Up" : 'Already have an account? Login'}
-        </button>
-      </div>
-    </div>
+    <>
+      {showVideo ? (
+        <video
+          src="https://media.istockphoto.com/id/2215600126/video/seamless-loop-digital-microchip-with-glowing-house-icon-and-circuit-board-smart-home.mp4?s=mp4-640x640-is&k=20&c=ECdGVVkqgVTQhSHB0U1OpRPHh95z9-BFKNcmXNFOknk="
+          autoPlay
+          onEnded={() => navigate('/')}
+          style={{ width: '100%', height: '100vh', objectFit: 'cover' }}
+        />
+      ) : (
+        <div className="login-signup-container">
+          <div className="emoji-container">
+            <span className={`emoji ${isPasswordFocused ? 'focused' : ''}`}>
+              {isPasswordFocused ? '🙈' : '🐵'}
+            </span>
+          </div>
+          <div className="form-container">
+            <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
+            <form onSubmit={handleSubmit}>
+              <label>Email:</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <label>Password:</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onFocus={handlePasswordFocus}
+                onBlur={handlePasswordBlur}
+                required
+              />
+              {error && <p className="error-message">{error}</p>}
+              <button type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
+            </form>
+            <button className="toggle-button" onClick={handleToggle}>
+              {isLogin ? "Don't have an account? Sign Up" : 'Already have an account? Login'}
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
